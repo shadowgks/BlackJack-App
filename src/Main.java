@@ -4,28 +4,28 @@ import java.util.*;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
 
-    static public int[][] createCards(int cart, int type){
-        int max_row = (13 - (cart - 1)) + (4 - type) * 13;
+    static public int[][] createCards(int card, int type){
+        int max_row = (13 - (card - 1)) + (4 - type) * 13;
         int max_col = 2;
 
-        int[][] cartes = new int[max_row][max_col]; // Create a 2D array to store the values
+        int[][] cards = new int[max_row][max_col]; // Create a 2D array to store the values
         int index = 0;
 
-        if(cart > 13 || cart <= 0 || type > 4 || type <= 0){
-            System.out.println("Sorry this number cardes not exist!");
+        if(card > 13 || card <= 0 || type > 4 || type <= 0){
+            System.out.println("Sorry this number cards not exist!");
         }else {
             //Insert numbers in array 2D
             for (int i=type; i<=4; i++){
-                for (int j=cart; j<=13; j++){
-                    cartes[index][0] = j;
-                    cartes[index][1] = i;
+                for (int j=card; j<=13; j++){
+                    cards[index][0] = j;
+                    cards[index][1] = i;
                     index++;
                 }
-                cart = 1;
+                card = 1;
             }
         }
 
-        return cartes;
+        return cards;
     }
 
     public static int[][] extractCard(int random_index, int next, int[][]new_array_cards_random){
@@ -106,6 +106,7 @@ public class Main {
     {
         System.out.println(Arrays.deepToString(cards));
     }
+
     public static void print2D(int[][] cards)
     {
         System.out.println(Arrays.deepToString(cards));
@@ -115,19 +116,32 @@ public class Main {
         Integer[] random_number = randomNumbers();
 
         int index_piocher = 0;
-        for (int i=0; i<random_number.length; i++){
-            if (random_number[i] > 10 && random_number[i] < 45){
-                index_piocher = random_number[i];
+        for (Integer integer : random_number) {
+            if (integer > 10 && integer < 45) {
+                index_piocher = integer;
                 break;
             }
         }
 
         return index_piocher;
     }
-    public static void main(String[] args) {
+
+    public static void runGame(){
+        // Get one random number
         int index_piocher = randomIndexForPiocher();
 
+        // Get array cards piocher
         int[][][] k = piocherCards(index_piocher);
+
         print3D(k);
+        
+        for(int i=0; i<index_piocher; i++){
+            System.out.println(k[0][i][0] +"-"+ k[0][i][1]);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        runGame();
     }
 }
