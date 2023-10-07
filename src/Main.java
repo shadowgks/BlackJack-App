@@ -102,6 +102,22 @@ public class Main {
 
         return uniqueNumbers;
     }
+//    public static int[] generateRandomArray() {
+//        int[] randomArray = new int[52];
+//        for (int i = 0; i < 52; i++) {
+//            randomArray[i] = i;
+//        }
+//
+//        Random random = new Random();
+//        for (int i = 51; i > 0; i--) {
+//            int j = random.nextInt(i);
+//            int temp = randomArray[i];
+//            randomArray[i] = randomArray[j];
+//            randomArray[j] = temp;
+//        }
+//
+//        return randomArray;
+//    }
 
     public static int randomIndexForPiocher() {
         Integer[] random_number = randomNumbers();
@@ -133,15 +149,13 @@ public class Main {
             cards_piocher_split_1[i] = cards_piocher[0][i];
         }
 
-        int card = 2;
-
         // I create arrays for stock cards each player and dealer
         int[][] card_player = new int[0][0];
         int[][] card_dealer = new int[0][0];
 
         // Get 2 Cards dealer and player
-        int[][][] cards_play_dealer = pullCard(cards_piocher_split_1, card, card_dealer);
-        int[][][] cards_play_player = pullCard(cards_play_dealer[1], card, card_player);
+        int[][][] cards_play_dealer = pullCard(cards_piocher_split_1, 2, card_dealer);
+        int[][][] cards_play_player = pullCard(cards_play_dealer[1], 2, card_player);
 
         // Create var for get score
         int score_palyer;
@@ -152,27 +166,28 @@ public class Main {
         score_dealer = score(cards_play_dealer[0], "dealer");
 
         // Show cards player and dealer
-        System.out.println("Cards Dealer: " + Arrays.deepToString(cards_play_dealer[0]) + " Score: " + score_dealer);
+        System.out.println("Card Dealer: " + Arrays.toString(cards_play_dealer[0][0]));
         System.out.println("Cards Player: " + Arrays.deepToString(cards_play_player[0]) + " Score: " + score_palyer);
 
         // Entre input value
         System.out.println("Hit | Stand h/s? ");
         input = myObj.nextLine();
 
+        //hit
         while (input.equals("h")) {
             // Get current cards
             cards_play_player = hitP_D(cards_play_player, "player");
             score_palyer = score(cards_play_player[0], "player");
-            System.out.println("Sum of cards player: " + score_palyer);
-            System.out.println(Arrays.deepToString(cards_play_player[0]));
+            System.out.println("Cards Player: "+ Arrays.deepToString(cards_play_player[0]));
+            System.out.println("Sum Of Cards Player: " + score_palyer);
 
             // Check score player
             if (score_palyer > 21) {
-                System.out.println("Player Lost");
+                System.out.println("Dealer Winner");
                 break;
             }
 
-            // Assign cards remaining
+            // Assign cards remaining player to dealer
             cards_play_dealer[1] = cards_play_player[1];
 
             // Entre input value
@@ -180,30 +195,31 @@ public class Main {
             input = myObj.nextLine();
         }
 
+        //stand
         while (input.equals("s")) {
             // Get current cards
-            if (score_dealer >= 17) {
+            if (score_dealer < 17) {
+                cards_play_dealer = hitP_D(cards_play_dealer, "dealer");
+                score_dealer = score(cards_play_dealer[0], "dealer");
+                System.out.println("Cards Dealer: " +Arrays.deepToString(cards_play_dealer[0]));
+                System.out.println("Sum Of Cards Dealer: " + score_dealer);
+            } else {
                 if (score_dealer > score_palyer) {
                     System.out.println("Dealer Winner");
                 } else {
                     System.out.println("Player Winner");
                 }
                 break;
-            } else {
-                cards_play_dealer = hitP_D(cards_play_dealer, "dealer");
-                score_dealer = score(cards_play_dealer[0], "dealer");
-                System.out.println("Sum of cards dealer: " + score_dealer);
-                System.out.println(Arrays.deepToString(cards_play_dealer[0]));
             }
 
             // Check score player
             if (score_dealer > 21) {
-                System.out.println("Dealer Lost");
+                System.out.println("Player Winner");
                 break;
             }
         }
 
-        System.out.println(Arrays.deepToString(cards_piocher_split_1));
+//        System.out.println(Arrays.deepToString(cards_piocher_split_1));
 
     }
 
@@ -274,6 +290,73 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        runGame();
+
+        System.out.println("\n" +
+                "\t\t\t\t\t\t\t\t\t██╗    ██╗███████╗██╗     ███████╗ ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗ \n" +
+                "\t\t\t\t\t\t\t\t\t██║    ██║██╔════╝██║     ██╔════╝██╔════╝██╔═══██╗████╗ ████║██╔════╝    ╚══██╔══╝██╔═══██╗\n" +
+                "\t\t\t\t\t\t\t\t\t██║ █╗ ██║█████╗  ██║     █████╗  ██║     ██║   ██║██╔████╔██║█████╗         ██║   ██║   ██║\n" +
+                "\t\t\t\t\t\t\t\t\t██║███╗██║██╔══╝  ██║     ██╔══╝  ██║     ██║   ██║██║╚██╔╝██║██╔══╝         ██║   ██║   ██║\n" +
+                "\t\t\t\t\t\t\t\t\t╚███╔███╔╝███████╗███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗       ██║   ╚██████╔╝\n" +
+                "\t\t\t\t\t\t\t\t\t ╚══╝╚══╝ ╚══════╝╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝ \n" +
+                "\t\t\t\t\t\t\t\t\t                                                                                            \n" +
+                "\t\t\t\t\t\t\t\t\t            ██████╗ ██╗      █████╗  ██████╗██╗  ██╗     ██╗ █████╗  ██████╗██╗  ██╗        \n" +
+                "\t\t\t\t\t\t\t\t\t            ██╔══██╗██║     ██╔══██╗██╔════╝██║ ██╔╝     ██║██╔══██╗██╔════╝██║ ██╔╝        \n" +
+                "\t\t\t\t\t\t\t\t\t            ██████╔╝██║     ███████║██║     █████╔╝      ██║███████║██║     █████╔╝         \n" +
+                "\t\t\t\t\t\t\t\t\t            ██╔══██╗██║     ██╔══██║██║     ██╔═██╗ ██   ██║██╔══██║██║     ██╔═██╗         \n" +
+                "\t\t\t\t\t\t\t\t\t            ██████╔╝███████╗██║  ██║╚██████╗██║  ██╗╚█████╔╝██║  ██║╚██████╗██║  ██╗        \n" +
+                "\t\t\t\t\t\t\t\t\t            ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝ ╚════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝        \n" +
+                "\t\t\t\t\t\t\t\t\t                                                                                            \n");
+
+        System.out.println("\n" +
+                "█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗\n" +
+                "╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝\n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n" +
+                " ██╗                              ███████╗████████╗ █████╗ ██████╗ ████████╗                                                                          \n" +
+                "███║                              ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝                                                                          \n" +
+                "╚██║            █████╗            ███████╗   ██║   ███████║██████╔╝   ██║                                                                             \n" +
+                " ██║            ╚════╝            ╚════██║   ██║   ██╔══██║██╔══██╗   ██║                                                                             \n" +
+                " ██║                              ███████║   ██║   ██║  ██║██║  ██║   ██║                                                                             \n" +
+                " ╚═╝                              ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝                                                                             \n" +
+                "                                                                                                                                                      \n" +
+                "██████╗                           ███████╗███╗   ██╗██████╗      ██████╗  █████╗ ███╗   ███╗███████╗                                                  \n" +
+                "╚════██╗                          ██╔════╝████╗  ██║██╔══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝                                                  \n" +
+                " █████╔╝        █████╗            █████╗  ██╔██╗ ██║██║  ██║    ██║  ███╗███████║██╔████╔██║█████╗                                                    \n" +
+                "██╔═══╝         ╚════╝            ██╔══╝  ██║╚██╗██║██║  ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝                                                    \n" +
+                "███████╗                          ███████╗██║ ╚████║██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗                                                  \n" +
+                "╚══════╝                          ╚══════╝╚═╝  ╚═══╝╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝                                                  \n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n" +
+                "█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗\n" +
+                "╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝\n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n" +
+                "                                                                                                                                                      \n");
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter number: ");
+        int choice = input.nextInt();
+
+        while(choice <= 0 || choice > 2){
+            System.out.println("Wrong choice correct number of the menu!!!");
+            System.out.println("Enter number: ");
+            choice = input.nextInt();
+        }
+
+        switch (choice){
+            case 1:
+                runGame();
+                break;
+            case 2:
+                System.out.println("\n" +
+                        " _____________________    __   __ _____ _     _    _______ _____  _____ __   _\n" +
+                        " |______|______|______      \\_/  |     ||     |    |______|     ||     || \\  |\n" +
+                        " ______||______|______       |   |_____||_____|    ______||_____||_____||  \\_|\n" +
+                        "                                                                              \n");
+                break;
+        }
+
     }
 }
